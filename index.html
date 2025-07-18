@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aşk Zamanı ✨</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #ff9ccf, #ff3366 70%);
+      font-family: 'Poppins', Arial, sans-serif;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .background-animation {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      pointer-events: none; z-index: 0;
+    }
+    .heart {
+      position: absolute;
+      width: 22px; height: 22px;
+      background: rgba(255,255,255,0.7);
+      left: 50%; top: 100%;
+      transform: translateX(-50%) scale(1) rotate(-45deg);
+      opacity: 0.7;
+      animation: float 8s infinite linear;
+      animation-delay: calc(-8s * var(--i));
+    }
+    .heart:before, .heart:after {
+      content: '';
+      position: absolute;
+      width: 22px; height: 22px;
+      background: inherit;
+      border-radius: 50%;
+    }
+    .heart:before { top: -11px; left: 0; }
+    .heart:after { left: 11px; top: 0; }
+
+    @keyframes float {
+      0% {
+        top: 100%;
+        opacity: 0.7;
+        transform: translateX(-50%) scale(1) rotate(-45deg);
+      }
+      60% { opacity: 1;}
+      100% {
+        top: -10%;
+        opacity: 0;
+        transform: translateX(-50%) scale(0.7) rotate(-45deg);
+      }
+    }
+    .card {
+      position: relative; z-index: 1;
+      background: rgba(255,255,255,0.5);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      width: 92vw; max-width: 420px; padding: 32px 20px 28px 20px;
+      display: flex; flex-direction: column; align-items: center;
+      animation: popin 0.5s cubic-bezier(.26,.69,.37,1.45);
+    }
+    @keyframes popin {
+      0% { transform: scale(0.75) translateY(40px); opacity: 0; }
+      100% { transform: scale(1) translateY(0); opacity: 1; }
+    }
+    .card h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #c40a53;
+      margin-bottom: 22px;
+      text-shadow: 0 2px 10px #fff9;
+    }
+    .card label {
+      color: #b03060;
+      font-weight: 500;
+      margin-bottom: 6px;
+      margin-top: 12px;
+      width: 100%;
+    }
+    .card input[type=\"date\"], .card input[type=\"time\"] {
+      width: 100%; padding: 12px; font-size: 1rem; border-radius: 12px;
+      border: none; background: #fff; margin-bottom: 16px;
+      box-shadow: 0 2px 8px #ffb2d64a;
+    }
+    .card button {
+      margin-top: 10px;
+      background: linear-gradient(90deg,#e94d88 20%, #ffa5bc 90%);
+      color: #fff;
+      padding: 12px 0;
+      width: 100%;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background .2s;
+      box-shadow: 0 2px 8px #ffb2d64a;
+    }
+    .card button:hover {
+      background: linear-gradient(90deg,#e94d88,#ff3366 60%);
+    }
+
+    /* SONUÇ */
+    .result-screen {
+      display: none;
+      z-index: 2;
+      width: 92vw; max-width: 440px; min-height: 350px;
+      align-items: center; justify-content: center;
+      flex-direction: column;
+      padding: 0 10px;
+    }
+    .results-container {
+      width: 100%;
+      margin-top: 32px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px 4%;
+      justify-content: center;
+    }
+    .result-card {
+      flex: 1 1 42%;
+      min-width: 110px;
+      background: linear-gradient(135deg, #ffaad6, #ffd6ea 70%);
+      color: #b02c54;
+      border-radius: 18px;
+      box-shadow: 0 2px 12px #ffb2d65a;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 22px 8px 14px 8px;
+      font-size: 1.3rem;
+      font-weight: 600;
+      opacity: 0;
+      transform: scale(.8) translateY(30px);
+      animation: cardIn .7s cubic-bezier(.28,1.47,.55,.93) forwards;
+    }
+    .result-card span {
+      font-size: 2.3rem;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #e33770;
+      text-shadow: 0 2px 14px #fff7;
+    }
+    .result-card .icon {
+      font-size: 2.5rem;
+      margin-bottom: 4px;
+      text-shadow: 0 2px 8px #fff7;
+    }
+    .result-card:nth-child(1) { animation-delay: .2s;}
+    .result-card:nth-child(2) { animation-delay: .5s;}
+    .result-card:nth-child(3) { animation-delay: .8s;}
+    .result-card:nth-child(4) { animation-delay: 1.1s;}
+
+    @keyframes cardIn {
+      0% { opacity:0; transform: scale(.7) translateY(60px);}
+      100% { opacity:1; transform: scale(1) translateY(0);}
+    }
+    .romantic-weather {
+      margin-top: 36px;
+      font-size: 1.18rem;
+      color: #fff;
+      text-align: center;
+      font-weight: 500;
+      animation: fadein 1s 1.4s both;
+      text-shadow: 0 2px 20px #e74070, 0 1px 8px #fff;
+    }
+    @keyframes fadein { from { opacity: 0;} to {opacity:1;} }
+
+    .result-screen button {
+      margin-top: 30px;
+      background: #fff;
+      color: #ff3366;
+      border: none;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 12px 36px;
+      border-radius: 18px;
+      box-shadow: 0 2px 8px #ffb2d64a;
+      cursor: pointer;
+      transition: background .15s;
+    }
+    .result-screen button:hover { background: #ffe6ee; }
+    @media (max-width:480px){
+      .card, .result-screen { max-width:99vw; padding:10px; }
+      .results-container { gap:12px 2%; }
+      .result-card { min-width:92px; font-size:1.1rem;}
+    }
+  </style>
+</head>
+<body>
+  <div class="background-animation"></div>
+  <div class="card" id="input-screen">
+    <h2>Aşkınızın Başlangıcı 💖</h2>
+    <label for="date">Tarihi Seçin</label>
+    <input type="date" id="date" required />
+    <label for="time">Saat (bilmiyorsanız tahmini yazın)</label>
+    <input type="time" id="time" required />
+    <button id="submit">Kaç Zamandır Birliktesiniz? 👩‍❤️‍👨</button>
+  </div>
+
+  <div class="result-screen" id="result-screen" style="display:flex;">
+    <h2>Geçen Zaman</h2>
+    <div class="results-container" id="results-container"></div>
+    <div class="romantic-weather" id="romantic-weather"></div>
+    <button onclick="location.reload()">Tekrar Hesapla</button>
+  </div>
+  <script>
+    // Arka plan kalpler
+    for(let i=0;i<32;i++){
+      let heart = document.createElement('div');
+      heart.className='heart';
+      heart.style.left = Math.random()*100+'vw';
+      heart.style.animationDelay = `${Math.random()*8}s`;
+      heart.style.setProperty('--i',i%8);
+      document.querySelector('.background-animation').appendChild(heart);
+    }
+
+    // Rastgele romantik hava durumu yazıları
+    const romanticWeathers = [
+      {icon:'☀️', text:'O gün güneş parlıyordu ve siz birlikte yepyeni bir hikayeye başladınız.'},
+      {icon:'🌧️', text:'Yağmur taneleri gibi umutlarınız birleşmişti, ıslanan yüreklerle…'},
+      {icon:'🌤️', text:'Bulutların arasından sızan umut gibi parlayan bir aşktı.'},
+      {icon:'❄️', text:'Kar taneleri gibi, aşkınız tertemiz ve sıcacıktı.'},
+      {icon:'🌫️', text:'Hafif bir sis vardı belki ama kalbiniz her şeyi aydınlatıyordu.'},
+      {icon:'🌙', text:'Ay ışığı gibi huzurlu, sakin ve masalsı bir geceydi.'},
+      {icon:'💐', text:'Doğa canlanıyordu, bahar gibi aşkla dolu bir gündü.'},
+    ];
+
+    document.getElementById('submit').onclick = function() {
+      const date = document.getElementById('date').value;
+      const time = document.getElementById('time').value;
+      if(!date || !time){
+        alert('Tarih ve saati giriniz.');
+        return;
+      }
+
+      const startDate = new Date(date + 'T' + time);
+      if(isNaN(startDate.getTime())){
+        alert('Tarih geçersiz!');
+        return;
+      }
+
+      const now = new Date();
+      let diffMs = now - startDate;
+      if(diffMs < 0){
+        alert('İleri tarih seçilemez!');
+        return;
+      }
+
+      let years = Math.floor(diffMs / (1000*60*60*24*365.25));
+      let months = Math.floor(diffMs / (1000*60*60*24*30.44));
+      let days = Math.floor(diffMs / (1000*60*60*24));
+      let hours = Math.floor(diffMs / (1000*60*60));
+      let pretty = [
+        {label:'Yıl', icon:'🎉', value: years},
+        {label:'Ay', icon:'💞', value: months},
+        {label:'Gün', icon:'🌹', value: days},
+        {label:'Saat', icon:'⏰', value: hours}
+      ];
+      // Animasyon için kutuları hazırla
+      let html = '';
+      pretty.forEach((item,i) => {
+        html += `
+          <div class="result-card" style="animation-delay:${0.2 + i*0.3}s">
+            <div class="icon">${item.icon}</div>
+            <span>${item.value}</span>
+            <div>${item.label}</div>
+          </div>
+        `;
+      });
+      document.getElementById('results-container').innerHTML = html;
+
+      // Romantik hava durumu cümlesi
+      let r = romanticWeathers[Math.floor(Math.random()*romanticWeathers.length)];
+      document.getElementById('romantic-weather').innerHTML = `${r.icon} ${r.text}`;
+
+      document.getElementById('input-screen').style.display = 'none';
+      document.getElementById('result-screen').style.display = 'flex';
+    };
+  </script>
+</body>
+</html>
